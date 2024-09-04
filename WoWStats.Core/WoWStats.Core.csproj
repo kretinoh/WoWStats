@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Interface\" />
     <Folder Include="Exception\" />
-    <Folder Include="Model\" />
     <Folder Include="Util\" />
     <Folder Include="Service\" />
   </ItemGroup>

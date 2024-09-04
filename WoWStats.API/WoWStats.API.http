@@ -1,6 +1,7 @@
 @WoWStats.API_HostAddress = http://localhost:5289
 
-GET {{WoWStats.API_HostAddress}}/weatherforecast/
+
+GET {{WoWStats.API_HostAddress}}/Authorization/authorize
 Accept: application/json
 
 ###
