@@ -1,16 +1,18 @@
 using WoWStats.API.Models.Config;
+using WoWStats.API.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Cargar configuración de OAuth en el contenedor
 builder.Services.Configure<OAuthSettings>(builder.Configuration.GetSection("OAuthSettings"));
+builder.Services.AddSingleton<TokenService>();
 
 //Config Redis distributed cache
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = builder.Configuration.GetConnectionString("Redis"); // Usa la conexión a Redis desde appsettings.json
-    options.InstanceName = "WoWStats_"; // Opcional, prefijo para las keys en Redis
-});
+//builder.Services.AddStackExchangeRedisCache(options =>
+//{
+//    options.Configuration = builder.Configuration.GetConnectionString("Redis"); // Usa la conexión a Redis desde appsettings.json
+//    options.InstanceName = "WoWStats_"; // Opcional, prefijo para las keys en Redis
+//});
 
 builder.Services.AddControllers();
 

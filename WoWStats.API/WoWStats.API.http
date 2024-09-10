@@ -5,3 +5,8 @@ GET {{WoWStats.API_HostAddress}}/Authorization/authorize
 Accept: application/json
 
 ###
+
+GET {{WoWStats.API_HostAddress}}/Profile/summary
+Accept: application/json
+
+###
