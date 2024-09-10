@@ -38,7 +38,7 @@ namespace WoWStats.API.Controllers.WowRetail
 
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var apiUrl = $"https://{region}.{rawUrl}/profile/user/wow?namespace=profile-eu&locale=es_ES";
+            var apiUrl = $"https://{region}.{rawUrl}/profile/user/wow?namespace={profileNameSpace}&locale=es_ES";
             //client.DefaultRequestHeaders.Add("Battlenet-Namespace", profileNameSpace);
 
             var response = await client.GetAsync(apiUrl);
@@ -49,6 +49,33 @@ namespace WoWStats.API.Controllers.WowRetail
 
             var content = await response.Content.ReadAsStringAsync();
             var userInfo = JsonConvert.DeserializeObject<WowProfile>(content);
+
+            return Ok(userInfo);
+        }
+
+        [HttpGet("mounts")]
+        public async Task<IActionResult> GetMountsCollection(string region)
+        {
+
+            var accessToken = _tokenService.GetAccessToken();
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return Unauthorized("Token no disponible. Por favor, autorízate primero.");
+            }
+
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var apiUrl = $"https://{region}.{rawUrl}/profile/user/wow/collections/mounts?namespace={profileNameSpace}&locale=es_ES";
+
+            var response = await client.GetAsync(apiUrl);
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode, "Error al obtener el perfil de WoW.");
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            var userInfo = JsonConvert.DeserializeObject<Mounts>(content);
 
             return Ok(userInfo);
         }
