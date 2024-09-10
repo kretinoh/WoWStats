@@ -2,25 +2,24 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using WoWStats.API.Controllers.WowRetail;
 using WoWStats.API.Models.Authentication;
 using WoWStats.API.Models.Config;
 using WoWStats.API.Utils;
 
-namespace WoWStats.API.Controllers
+namespace WoWStats.API.Controllers.BattleNet
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Battlenet/[controller]")]
     public class AuthorizationController : ControllerBase
     {
         private readonly OAuthSettings _oAuthSettings;
         private readonly TokenService _tokenService;
 
-        public AuthorizationController(IOptions<OAuthSettings> oAuthSettings,TokenService tokenService)
+        public AuthorizationController(IOptions<OAuthSettings> oAuthSettings, TokenService tokenService)
         {
             _oAuthSettings = oAuthSettings.Value;
             _tokenService = tokenService;
-            
+
         }
         // GET: <AuthorizationController>/authorize
         [HttpGet("authorize")]

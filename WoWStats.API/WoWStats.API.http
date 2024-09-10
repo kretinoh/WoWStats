@@ -1,12 +1,12 @@
 @WoWStats.API_HostAddress = http://localhost:5289
 
 
-GET {{WoWStats.API_HostAddress}}/Authorization/authorize
+GET {{WoWStats.API_HostAddress}}/Battlenet/Authorization/authorize
 Accept: application/json
 
 ###
 
-GET {{WoWStats.API_HostAddress}}/Profile/summary
+GET {{WoWStats.API_HostAddress}}/Retail/Profile/summary
 Accept: application/json
 
 ###

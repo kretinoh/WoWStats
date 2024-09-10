@@ -11,7 +11,7 @@ using WoWStats.API.Utils;
 namespace WoWStats.API.Controllers.WowRetail
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Retail/[controller]")]
     public class ProfileController : ControllerBase
     {
 
