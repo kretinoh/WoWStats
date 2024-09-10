@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using WoWStats.API.Models.Authentication;
 using WoWStats.API.Models.Config;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WoWStats.API.Controllers
 {
@@ -27,6 +26,22 @@ namespace WoWStats.API.Controllers
             return Redirect(authorizationUrl);
         }
 
+        [HttpGet("userinfo")]
+        public async Task<dynamic> GetUserInfo(string accessToken)
+        {
+            using var client = new HttpClient();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var url = $"{_oAuthSettings.BasicUri}/userinfo";
+            var response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<UserInfo>(content);
+
+        }
+
         // GET: <AuthorizationController>/callback
         [HttpGet("callback")]
         public async Task<IActionResult> Callback(string code, string state)
@@ -37,7 +52,8 @@ namespace WoWStats.API.Controllers
             }
 
             var tokenResponse = await GetToken(code);
-            return Ok(tokenResponse);
+            var userInfo = await GetUserInfo(tokenResponse.AccessToken);
+            return Ok(userInfo);
         }
 
         private async Task<TokenResponse> GetToken(string code)
